@@ -7,12 +7,15 @@ import {
     fetchConversationHistory,
 } from '../clients/UniversalAgentClient'
 
-export function ChatWindow() {
+interface ChatWindowProps {
+    threadId: string
+}
+
+export function ChatWindow({ threadId }: ChatWindowProps) {
     const [messages, setMessages] = useState<Message[]>([])
     const [inputValue, setInputValue] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
-    const [threadId] = useState<string>('1')
 
     // Load conversation history on mount
     useEffect(() => {

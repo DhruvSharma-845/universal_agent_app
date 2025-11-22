@@ -56,6 +56,16 @@ export async function chatWithUniversalAgentInStreamingMode(
     })
 }
 
+export async function fetchConversations() {
+    const response = await fetch(`${API_BASE_URL}/conversations`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    return response.json()
+}
+
 export async function fetchConversationHistory(threadId: string) {
     try {
         const response = await fetch(
