@@ -13,7 +13,7 @@ export function ChatTabs({
     onTabChange,
     onNewChat,
 }: ChatTabsProps) {
-    const [threads, setThreads] = useState<string[]>([])
+    const [threads, setThreads] = useState<string[]>(['1'])
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -24,7 +24,9 @@ export function ChatTabs({
         setIsLoading(true)
         try {
             const fetchedThreads = await fetchConversations()
-            setThreads(fetchedThreads['threads'])
+            if (fetchedThreads['threads'].length > 0) {
+                setThreads(fetchedThreads['threads'])
+            }
         } catch (error) {
             console.error('Failed to load conversations:', error)
         } finally {

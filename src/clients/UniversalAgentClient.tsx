@@ -5,7 +5,7 @@ const API_BASE_URL = 'http://localhost:8000/api'
 export function chatWithUniversalAgent(threadId: string, messages: string[]) {
     return fetch(`${API_BASE_URL}/universal-agent/chat`, {
         method: 'POST',
-        body: JSON.stringify({ thread_id: threadId, messages }),
+        body: JSON.stringify({ thread_id: threadId, messages, user_id: '1' }),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -30,7 +30,7 @@ export async function chatWithUniversalAgentInStreamingMode(
             Accept: 'text/event-stream',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages, thread_id: threadId }),
+        body: JSON.stringify({ messages, thread_id: threadId, user_id: '1' }),
         async onopen(res) {
             if (res.ok && res.status === 200) {
                 console.log('Connection made ', res)
@@ -57,7 +57,7 @@ export async function chatWithUniversalAgentInStreamingMode(
 }
 
 export async function fetchConversations() {
-    const response = await fetch(`${API_BASE_URL}/conversations`, {
+    const response = await fetch(`${API_BASE_URL}/conversations?user_id=1`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export async function fetchConversations() {
 export async function fetchConversationHistory(threadId: string) {
     try {
         const response = await fetch(
-            `${API_BASE_URL}/conversations/${threadId}`,
+            `${API_BASE_URL}/conversations/${threadId}?user_id=1`,
             {
                 method: 'GET',
                 headers: {
