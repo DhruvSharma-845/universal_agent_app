@@ -2,10 +2,16 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 
 const API_BASE_URL = 'http://localhost:8000/api'
 
+const USER_ID = '1'
+
 export function chatWithUniversalAgent(threadId: string, messages: string[]) {
     return fetch(`${API_BASE_URL}/universal-agent/chat`, {
         method: 'POST',
-        body: JSON.stringify({ thread_id: threadId, messages, user_id: '1' }),
+        body: JSON.stringify({
+            thread_id: threadId,
+            messages,
+            user_id: USER_ID,
+        }),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -30,7 +36,11 @@ export async function chatWithUniversalAgentInStreamingMode(
             Accept: 'text/event-stream',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages, thread_id: threadId, user_id: '1' }),
+        body: JSON.stringify({
+            messages,
+            thread_id: threadId,
+            user_id: USER_ID,
+        }),
         async onopen(res) {
             if (res.ok && res.status === 200) {
                 console.log('Connection made ', res)
@@ -57,19 +67,22 @@ export async function chatWithUniversalAgentInStreamingMode(
 }
 
 export async function fetchConversations() {
-    const response = await fetch(`${API_BASE_URL}/conversations?user_id=1`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
+    const response = await fetch(
+        `${API_BASE_URL}/conversations?user_id=${USER_ID}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
+    )
     return response.json()
 }
 
 export async function fetchConversationHistory(threadId: string) {
     try {
         const response = await fetch(
-            `${API_BASE_URL}/conversations/${threadId}?user_id=1`,
+            `${API_BASE_URL}/conversations/${threadId}?user_id=${USER_ID}`,
             {
                 method: 'GET',
                 headers: {

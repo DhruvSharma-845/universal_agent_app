@@ -26,6 +26,7 @@ export function ChatTabs({
             const fetchedThreads = await fetchConversations()
             if (fetchedThreads['threads'].length > 0) {
                 setThreads(fetchedThreads['threads'])
+                onTabChange(fetchedThreads['threads'][0])
             }
         } catch (error) {
             console.error('Failed to load conversations:', error)
